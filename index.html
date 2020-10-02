@@ -71,11 +71,13 @@ A figure that conveys the main idea behind the project or the main application b
 <!-- Approach -->
 <h3>Approach</h3>
 <p>
-  In order to achieve our goal of artistically mapping a painter’s style onto an input human face, we must utilize various techniques. First, to determine if a painting contains a face, we will use the Viola-Jones algorithm [1]. If a face does not exist, we will simply use a texture generation algorithm [2] to map the landscape painting’s style onto the input face. If a face does exist (and we will have to take into account the possibility of multiple faces), we will have to detect facial landmarks. There exists a previous implementation [3] of this in Python using dlib and OpenCV that we will be able to exploit. Our ultimate goal is to produce results that appear similar to those seen in The Face of Art project [4]. To achieve this, we want to preserve the geometric style of the painting by warping the human source image to match the geometric characteristics of the portrait painting in relation to the face landmark points. We have two ideas for our warping algorithm: <br>
+  In order to achieve our goal of artistically mapping a painter’s style onto an input human face, we must utilize various techniques. First, to determine if a painting contains a face, we will use the Viola-Jones algorithm [1]. If a face does not exist, we will simply use a texture generation algorithm [2] to map the landscape painting’s style onto the input face. If a face does exist (and we will have to take into account the possibility of multiple faces), we will have to detect facial landmarks. There exists a previous implementation [3] of this in Python using dlib and OpenCV that we will be able to exploit. Our ultimate goal is to produce results that appear similar to those seen in The Face of Art project [4]. To achieve this, we want to preserve the geometric style of the painting by warping the human source image to match the geometric characteristics of the portrait painting in relation to the face landmark points. We have two ideas for our warping algorithm:
+</p>
   <ol>
     <li> Non-parametric warping using triangular affine matrices [5] </li>
     <li> Moving Least Squares algorithm [6] to average the image </li>
   </ol>
+<p>
   To map the artistic styles from image to image, we can go two ways: map the human face onto the painting, or vice versa. Either way, we can implement one of two approaches: Poisson blending [7] or weight masks based on facial feature segmentation. For weight masks, we can simply create a polygon based on the landmark features found previously (the points have ranges assigned to each region) and map those regions over using different weights for different features. The output will then result in an artistically styled face that preserves the original geometry of the painting. 
 </p>
 
@@ -83,15 +85,18 @@ A figure that conveys the main idea behind the project or the main application b
 <!-- Results -->
 <h3>Experiments and Results</h3>
 <p>
-  With regards to our experimental setup, as previously stated, we want to limit training and creating from scratch our neural networks as it can be costly and highly challenging given our timeframe. We can stay within this constraint by using a pre-trained model for 81-point facial landmark detection [3]. Besides this model, we do not intend on using any other neural networks or deep learning techniques. The datasets we will use to test our methodology are mainly inspired by The Face of Art project [4]; we will utilize the Artistic-Faces dataset [8] offered by IDC Herzliya and the IBUG 300 Faces in the Wild dataset [9] implicitly via the face landmark model. We will also utilize the Best Artworks of All Time dataset [10] in order to test our texture mapping algorithm on landscape paintings. Our implementation will draw inspiration from many sources and exploit some previous code. We will use the aforementioned 81-point face landmark model, a face warping algorithm implemented using dlib [11], a Moving Least Squared algorithm [12], and a Poisson Image editing algorithm [13]. With that given, we will have to implement our own form of Viola-Jones to detect faces in portraits, a texture mapping algorithm for landscape paintings, a style-transfer algorithm using facial feature weight masks, and some small changes to the pre-existing code to make it cooperate with our code. The experiments we will perform are as follows: <br>
-  <ul>
-    <li>Test with landscape paintings</li>
-    <li>Test with portrait paintings</li>
-    <li>Test with portrait/landscape paintings with two or more faces</li>
-    <li>Measure effectiveness of mapping artistic style of painting onto input human image</li>
-    <li>Measure effectiveness of blending input human image into the painting itself</li>
-    <li>Measure effectiveness using varying parameter values and weights</li>
-  </ul> We will verify the outcomes of these experiments by qualitatively comparing them to the outputs generated by The Face of Art style transfer implementation.
+  With regards to our experimental setup, as previously stated, we want to limit training and creating from scratch our neural networks as it can be costly and highly challenging given our timeframe. We can stay within this constraint by using a pre-trained model for 81-point facial landmark detection [3]. Besides this model, we do not intend on using any other neural networks or deep learning techniques. The datasets we will use to test our methodology are mainly inspired by The Face of Art project [4]; we will utilize the Artistic-Faces dataset [8] offered by IDC Herzliya and the IBUG 300 Faces in the Wild dataset [9] implicitly via the face landmark model. We will also utilize the Best Artworks of All Time dataset [10] in order to test our texture mapping algorithm on landscape paintings. Our implementation will draw inspiration from many sources and exploit some previous code. We will use the aforementioned 81-point face landmark model, a face warping algorithm implemented using dlib [11], a Moving Least Squared algorithm [12], and a Poisson Image editing algorithm [13]. With that given, we will have to implement our own form of Viola-Jones to detect faces in portraits, a texture mapping algorithm for landscape paintings, a style-transfer algorithm using facial feature weight masks, and some small changes to the pre-existing code to make it cooperate with our code. The experiments we will perform are as follows:
+</p>
+<ul>
+  <li>Test with landscape paintings</li>
+  <li>Test with portrait paintings</li>
+  <li>Test with portrait/landscape paintings with two or more faces</li>
+  <li>Measure effectiveness of mapping artistic style of painting onto input human image</li>
+  <li>Measure effectiveness of blending input human image into the painting itself</li>
+  <li>Measure effectiveness using varying parameter values and weights</li>
+</ul> 
+<p>
+  We will verify the outcomes of these experiments by qualitatively comparing them to the outputs generated by The Face of Art style transfer implementation.
 </p>
 <br><br>
 
