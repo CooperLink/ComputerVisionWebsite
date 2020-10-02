@@ -71,24 +71,7 @@ A figure that conveys the main idea behind the project or the main application b
 <!-- Approach -->
 <h3>Approach</h3>
 <p>
-    The first step is to use the Viola-Jones algorithm to detect any faces in the painting. We will implement this algorithm ourselves.
-    If there are faces detected in the artwork we will use OpenCV to detect facial landmarks on all the detected faces. We will detect the facial landmarks
-    based off of the shape predictor <a href="https://github.com/codeniko/shape_predictor_81_face_landmarks">here</a>. This landmark detection algorithm
-    finds 81 facial feature landmarks including the forehead. An example of this is below:
-    <img style="height: 300px; display: block; margin: 20px auto 20px auto;" alt="" src="facial-features.jpg">
-    To preserve the geometric style of the painting, we will warp the human source image to match the geometric characteristics of the painting source image.
-    This will be done by using the landmark points to perform a non-parametric face warp using triangular affine matrices. This will be done using code found
-    <a href="https://github.com/alyssaq/face_morpher/blob/dlib/facemorpher/warper.py">here</a>. This contains code that can be used to warp faces based on anchor points,
-    so it is particularly applicable to our method.
-</p>
-<p>
-    The next step is the blending of the face and artwork. We will map the face from the photo onto the painting. This will be accomplished by two different approaches
-    we will implement. The first being a Poisson blending which will adapt from <a href="https://github.com/willemmanuel/poisson-image-editing/blob/master/poisson.py">here</a>.
-    The second approach will be weight masks based on facial feature segmentation. This will be done by creating a polygon based on the landmark features found previously, 
-    which have numbers assigned to regions, and simply map those regions onto the painting using different weights for different features based on what we find to be the most critical points.
-</p>
-<p>
-    In addition to the above, if there is no face detected by the Viola-Jones algorithm then we will be applying the painting's texture onto the image of the face. 
+    In order to achieve our goal of artistically mapping a painter’s style onto an input human face, we must utilize various techniques. First, to determine if a painting contains a face, we will use the Viola-Jones algorithm [1]. If a face does not exist, we will simply use a texture generation algorithm [2] to map the landscape painting’s style onto the input face. If a face does exist (and we will have to take into account the possibility of multiple faces), we will have to detect facial landmarks. There exists a previous implementation [3] of this in Python using dlib and OpenCV that we will be able to exploit. Our ultimate goal is to produce results that appear similar to those seen in The Face of Art project [4]. To achieve this, we want to preserve the geometric style of the painting by warping the human source image to match the geometric characteristics of the portrait painting in relation to the face landmark points. We have two ideas for our warping algorithm: 1) non-parametric warping using triangular affine matrices [5] or 2) the Moving Least Squares algorithm [6] to average the image. To map the artistic styles from image to image, we can go two ways: map the human face onto the painting, or vice versa. Either way, we can implement one of two approaches: Poisson blending [7] or weight masks based on facial feature segmentation. For weight masks, we can simply create a polygon based on the landmark features found previously (the points have ranges assigned to each region) and map those regions over using different weights for different features. The output will then result in an artistically styled face that preserves the original geometry of the painting. 
 </p>
 
 <br><br>
