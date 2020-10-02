@@ -44,15 +44,10 @@ color: #FF9900;
 <h3>Problem Statement</h3>
 
   <p>
-    The goal of our project is to create an artistically styled interpretation of a portrait that maps important features of an input face onto an input 
-    painting without sacrificing the geometric proportions and color palatte of the painting . If no face is detected in the input painting, the input face 
-    will be ingrained into the input portrait’s background using texture mapping. If a face is included in the input painting, the input face will replace the
-    detected portrait face using landmark matching while preserving the original portrait’s artistic style and geometric proportions. 
+    The goal of our project is to create an artistically styled interpretation of a portrait that maps important features of an input face onto an input painting without sacrificing the geometric proportions and color palatte of the painting . If no face is detected in the input painting, the input face will be ingrained into the input portrait’s background using texture mapping. If a face is included in the input painting, the input face will replace the detected portrait face using landmark matching while preserving the original portrait’s artistic style and geometric proportions. 
   </p>
   <p>
-    For instance, if a user inputs their face and Van Gogh’s Starry Night, the expected output image would have the user’s face ingrained in the overall 
-    painting’s background, as there are no faces in Starry Night. However, if a user inputs Da Vinci’s Mona Lisa instead of Starry Night, Lisa’s face would
-    be replaced with an altered version of the user’s face that matches the artist’s style and facial dimensions.
+    For instance, if a user inputs their face and Van Gogh’s Starry Night, the expected output image would have the user’s face ingrained in the overall painting’s background, as there are no faces in Starry Night. However, if a user inputs Da Vinci’s Mona Lisa instead of Starry Night, Lisa’s face would be replaced with an altered version of the user’s face that matches the artist’s style and facial dimensions.
   </p>
 </p>
 <br><br>
@@ -85,7 +80,8 @@ A figure that conveys the main idea behind the project or the main application b
 <!-- Results -->
 <h3>Experiments and Results</h3>
 <p>
-  With regards to our experimental setup, as previously stated, we want to limit training and creating from scratch our neural networks as it can be costly and highly challenging given our timeframe. We can stay within this constraint by using a pre-trained model for 81-point facial landmark detection [3]. Besides this model, we do not intend on using any other neural networks or deep learning techniques. The datasets we will use to test our methodology are mainly inspired by The Face of Art project [4]; we will utilize the Artistic-Faces dataset [8] offered by IDC Herzliya and the IBUG 300 Faces in the Wild dataset [9] implicitly via the face landmark model. We will also utilize the Best Artworks of All Time dataset [10] in order to test our texture mapping algorithm on landscape paintings. Our implementation will draw inspiration from many sources and exploit some previous code. We will use the aforementioned 81-point face landmark model, a face warping algorithm implemented using dlib [11], a Moving Least Squared algorithm [12], and a Poisson Image editing algorithm [13]. With that given, we will have to implement our own form of Viola-Jones to detect faces in portraits, a texture mapping algorithm for landscape paintings, a style-transfer algorithm using facial feature weight masks, and some small changes to the pre-existing code to make it cooperate with our code. The experiments we will perform are as follows:
+  With regards to our experimental setup, as previously stated, we want to limit training and creating from scratch our neural networks as it can be costly and highly challenging given our timeframe. We can stay within this constraint by using a pre-trained model for 81-point facial landmark detection [3]. An example of this is below:
+  <img style="height: 300px; display: block; margin: 20px auto 20px auto;" alt="" src="facial-features.jpg"> Besides this model, we do not intend on using any other neural networks or deep learning techniques. The datasets we will use to test our methodology are mainly inspired by The Face of Art project [4]; we will utilize the Artistic-Faces dataset [8] offered by IDC Herzliya and the IBUG 300 Faces in the Wild dataset [9] implicitly via the face landmark model. We will also utilize the Best Artworks of All Time dataset [10] in order to test our texture mapping algorithm on landscape paintings. Our implementation will draw inspiration from many sources and exploit some previous code. We will use the aforementioned 81-point face landmark model, a face warping algorithm implemented using dlib [11], a Moving Least Squared algorithm [12], and a Poisson Image editing algorithm [13]. With that given, we will have to implement our own form of Viola-Jones to detect faces in portraits, a texture mapping algorithm for landscape paintings, a style-transfer algorithm using facial feature weight masks, and some small changes to the pre-existing code to make it cooperate with our code. The experiments we will perform are as follows:
 </p>
 <ul>
   <li>Test with landscape paintings</li>
