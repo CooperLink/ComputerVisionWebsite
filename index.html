@@ -67,31 +67,31 @@ A figure that conveys the main idea behind the project or the main application b
 <!-- Approach -->
 <h3>Approach</h3>
 <p>
-    The first step is to use Viola-Jones algorithm to detect any faces in the painting. We will implement this algorithm ourselves.
+    The first step is to use the Viola-Jones algorithm to detect any faces in the painting. We will implement this algorithm ourselves.
     If there are faces detected in the artwork we will use OpenCV to detect facial landmarks on all the detected faces. We will detect the facial landmarks
     based off of the shape predictor <a href="https://github.com/codeniko/shape_predictor_81_face_landmarks">here</a>. This landmark detection algorithm
     finds 81 facial feature landmarks including the forehead. An example of this is below:
     <img style="height: 300px; display: block; margin: 20px auto 20px auto;" alt="" src="facial-features.jpg">
     To preserve the geometric style of the painting, we will warp the human source image to match the geometric characteristics of the painting source image.
     This will be done by using the landmark points to perform a non-parametric face warp using triangular affine matrices. This will be done using code found
-    <a href="https://github.com/alyssaq/face_morpher/blob/dlib/facemorpher/warper.py">here</a>. This contains code taht can be used to warp faces based on anchor points,
+    <a href="https://github.com/alyssaq/face_morpher/blob/dlib/facemorpher/warper.py">here</a>. This contains code that can be used to warp faces based on anchor points,
     so it is particularly applicable to our method.
 </p>
 <p>
     The next step is the blending of the face and artwork. We will map the face from the photo onto the painting. This will be accomplished by two different approaches
-    we will implement. The first being a Poission blending which will adapt from <a href="https://github.com/willemmanuel/poisson-image-editing/blob/master/poisson.py">here</a>.
+    we will implement. The first being a Poisson blending which will adapt from <a href="https://github.com/willemmanuel/poisson-image-editing/blob/master/poisson.py">here</a>.
     The second approach will be weight masks based on facial feature segmentation. This will be done by creating a polygon based on the landmark features found previously, 
     which have numbers assigned to regions, and simply map those regions onto the painting using different weights for different features based on what we find to be the most critical points.
 </p>
 <p>
-    In addition to the above, if there is no face detected by the Viola-Jones algorithm then we will be apply the painting's texture onto the image of the face. 
+    In addition to the above, if there is no face detected by the Viola-Jones algorithm then we will be applying the painting's texture onto the image of the face. 
 </p>
 
 <br><br>
 <!-- Results -->
 <h3>Experiments and results</h3>
 <p>
-    With regards to experimental setup, as previously stated, we want to limit our dependence on neural networks such that we do not need to perform any sort of learning on our own.
+    With regards to our experimental setup, as previously stated, we want to limit our dependence on neural networks such that we do not need to perform any sort of learning on our own.
     We can stay within this constraint by using a pre-trained model for 81-point facial landmark detection. Besides this model, we do not intend on using any neural network or learning technique.
     The datasets we will use to test our methodology are mainly inspired by The Face of Art project; we will utilize the Artistic-Faces dataset offered by IDC Herzliya and the IBUG 300 Faces in
     the Wild dataset implicitly via the face landmark model. We will also utilize the Best Artworks of All Time dataset in order to test our texture mapping algorithm on landscape paintings.
