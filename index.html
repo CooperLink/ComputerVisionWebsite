@@ -3,7 +3,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
   <title>Computer Vision Class Project
-  | ECE, Virginia Tech | Fall 2015: ECE 5554/4984</title>
+  | CS, Georgia Tech | Fall 2020: CS 4641</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
   <meta name="author" content="">
@@ -35,27 +35,28 @@ color: #FF9900;
 
 <!-- Title and Name -->
 <h1>Your Title Here</h1>
-<span style="font-size: 20px; line-height: 1.5em;"><strong>Your Name Here</strong></span><br>
-<span style="font-size: 18px; line-height: 1.5em;">Fall 2015 ECE 5554/4984 Computer Vision: Class Project</span><br>
-<span style="font-size: 18px; line-height: 1.5em;">Virginia Tech</span>
+<span style="font-size: 20px; line-height: 1.5em;"><strong>Devarsi Rawal, Cooper Link, Kevin Li, Matt Carroll, Saloni Shah</strong></span><br>
+<span style="font-size: 18px; line-height: 1.5em;">Fall 2020 CS 4641 Computer Vision: Class Project</span><br>
+<span style="font-size: 18px; line-height: 1.5em;">Georgia Tech</span>
 <hr>
 
-Please see <a href="http://vision.cs.utexas.edu/projects/adapted_attributes/">this</a> for an example of how to lay out the various details of your project. You may need to provide more details than this, beause you will not be submitting an associated paper to accompany the webpage. So the page should be self-contained
-
-This is the proposal requirements
-Proposal (20% of project grade): A description of the following (to be submitted via the project web-page):
-Problem statement: Clearly state the goal of your project. When someone uses your system, what is the expected input to the system, and what is the desired output?
-Approach: Describe the technical approach you plan to employ.
-Experiments and results: Describe the experimental setup you will follow, which datasets you will use, which existing code you will exploit, what you will implement yourself, and what you would define as a success for the project. If you plan on collecting your own data, describe what data collection protocol you will follow. Provide a list of experiments you will perform. Describe what you expect the experiments to reveal, or what is uncertain about the potential outcomes.
-
 <!-- Goal -->
-<h3>Abstract</h3>
+<h3>Problem Statement</h3>
 
-One or two sentences on the motivation behind the problem you are solving. One or two sentences describing the approach you took. One or two sentences on the main result you obtained.
+<p>Given an input portrait and an input face, create an artistically styled interpretation of the photo that has the picture of the
+input face mapped onto the input portrait. If no face is detected in the input portrait, the input face is mapped into the input
+portrait using texture mapping. If a face is included in the input portrait, the input face replaces the detected face using
+landmark matching and also preserves the original portrait’s artistic style and geometric proportions. For instance, if a
+user inputs their face and Van Gogh’s Starry Night, the expected output image would have the user’s face ingrained in the
+overall portrait’s background, as there are no faces in Starry Night. However, if a user inputs da Vinci’s Mona Lisa instead
+of Starry Night, Lisa’s face would be replaced with an altered version of the user’s face that matches the artist’s style and facial dimensions.
+</p>
 <br><br>
 <!-- figure -->
 <h3>Teaser figure</h3>
+<p>
 A figure that conveys the main idea behind the project or the main application being addressed.
+</p>
 <br><br>
 <!-- Main Illustrative Figure -->
 <div style="text-align: center;">
@@ -63,20 +64,35 @@ A figure that conveys the main idea behind the project or the main application b
 </div>
 
 <br><br>
-<!-- Introduction -->
-<h3>Introduction</h3>
-Motivation behind the problem you are solving, what applications it has, any brief background on the particular domain you are working in (if not regular RBG photographs), etc. If you are using a new way to solve an existing problem, briefly mention and describe the existing approaches and tell us how your approach is new.
-
-<br><br>
 <!-- Approach -->
 <h3>Approach</h3>
-Describe very clearly and systematically your approach to solve the problem. Tell us exactly what existing implementations you used to build your system. Tell us what obstacles you faced and how you addressed them. Justify any design choices or judgment calls you made in your approach.
+<p>
+    The first step is to use Viola-Jones algorithm to detect any faces in the painting. We will implement this algorithm ourselves.
+    If there are faces detected in the artwork we will use OpenCV to detect facial landmarks on all the detected faces. We will detect the facial landmarks
+    based off of the shape predictor <a href="https://github.com/codeniko/shape_predictor_81_face_landmarks">here</a>. This landmark detection algorithm
+    finds 81 facial feature landmarks including the forehead. An example of this is below:
+    <img style="height: 300px; display: block; margin: 20px auto 20px auto;" alt="" src="facial-features.jpg">
+    To preserve the geometric style of the painting, we will warp the human source image to match the geometric characteristics of the painting source image.
+    This will be done by using the landmark points to perform a non-parametric face warp using triangular affine matrices. This will be done using code found
+    <a href="https://github.com/alyssaq/face_morpher/blob/dlib/facemorpher/warper.py">here</a>. This contains code taht can be used to warp faces based on anchor points,
+    so it is particularly applicable to our method.
+</p>
+<p>
+    The next step is the blending of the face and artwork. We will map the face from the photo onto the painting. This will be accomplished by two different approaches
+    we will implement. The first being a Poission blending which will adapt from <a href="https://github.com/willemmanuel/poisson-image-editing/blob/master/poisson.py">here</a>.
+    The second approach will be weight masks based on facial feature segmentation. This will be done by creating a polygon based on the landmark features found previously, 
+    which have numbers assigned to regions, and simply map those regions onto the painting using different weights for different features based on what we find to be the most critical points.
+</p>
+<p>
+    In addition to the above, if there is no face detected by the Viola-Jones algorithm then we will be apply the painting's texture onto the image of the face. 
+</p>
 
 <br><br>
 <!-- Results -->
 <h3>Experiments and results</h3>
+<p>
 Provide details about the experimental set up (number of images/videos, number of datasets you experimented with, train/test split if you used machine learning algorithms, etc.). Describe the evaluation metrics you used to evaluate how well your approach is working. Include clear figures and tables, as well as illustrative qualitative examples if appropriate. Be sure to include obvious baselines to see if your approach is doing better than a naive approach (e.g. for classification accuracy, how well would a classifier do that made random decisions?). Also discuss any parameters of your algorithms, and tell us how you set the values of those parameters. You can also show us how the performance varies as you change those parameter values. Be sure to discuss any trends you see in your results, and explain why these trends make sense. Are the results as expected? Why?
-
+</p>
 <br><br>
 
 <!-- Main Results Figure -->
@@ -85,23 +101,10 @@ Provide details about the experimental set up (number of images/videos, number o
 </div>
 <br><br>
 
-<!-- Results -->
-<h3>Qualitative results</h3>
-Show several visual examples of inputs/outputs of your system (success cases and failures) that help us better understand your approach.
-<br><br>
-
-<!-- Main Results Figure -->
-<div style="text-align: center;">
-<img style="height: 300px;" alt="" src="qual_results.png">
-</div>
-<br><br>
-
-
-
 
   <hr>
   <footer>
-  <p>© You Name Here</p>
+  <p>© Devarsi Rawal, Cooper Link, Kevin Li, Matt Carroll, Saloni Shah</p>
   </footer>
 </div>
 </div>
