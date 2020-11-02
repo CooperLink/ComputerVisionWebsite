@@ -91,7 +91,19 @@ color: #FF9900;
     <img style="height: 200px;" alt="" src="zvinight.jpg">
   </div>
 </p>
-
+<p>
+  Here are two examples of Zvi being integrated using the texture of Van Gogh’s Starry Night and Van Gogh’s Wheatfield with Cypresses.  A naive approach to texture mapping would be to reduce the transparency of the person’s face and place it in front of the portrait. This would essentially overlay the image of the person’s face on top of the portrait. This is the incorrect way to do this, and examples of this image overlay are shown below.
+  <div style="text-align: center;">
+    <img style="height: 200px;" alt="" src="naivenight.jpg">
+    <img style="height: 200px;" alt="" src="naivewheat.jpg">
+  </div>
+</p>
+<p>
+  The parameters for our algorithm that can be changed are the alpha value which determine how much the person’s face’s shape and edges are factored into the final texture map. The alpha value we used was 0.8, which was suggested by the Efros paper. Another parameter that was used was the amount of overlap that two texture blocks would have before stitching them together. We utilized 1/6 of the texture block size as this was also suggested by the paper. 
+</p>
+<p>
+  A trend that we saw was that, when it comes to portraits, because they do not have a relatively uniform texture, the texture that is used to recreate the person’s face is often the same. This result was expected because the variation among a person’s face is often minute, meaning that similar corresponding textures from the portrait would be chosen as the transfer texture for each “block” of the face. This is a benefit, as the person’s face can be more easily ingrained into the background of the photo, because the face is less varied.
+</p>
 <br><br>
 
 <!-- References -->
