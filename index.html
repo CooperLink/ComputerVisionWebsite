@@ -40,21 +40,22 @@ color: #FF9900;
 <span style="font-size: 18px; line-height: 1.5em;">Georgia Tech</span>
 <hr>
 
-<!-- Goal -->
-<h3>Problem Statement</h3>
+<!-- Abstract -->
+<h3>Abstract</h3>
 
   <p>
-    The goal of our project is to create an artistically styled interpretation of a portrait that maps important features of an input face onto an input painting without sacrificing the geometric proportions and color palatte of the painting . If no face is detected in the input painting, the input face will be ingrained into the input portrait’s background using texture mapping. If a face is included in the input painting, the input face will replace the detected portrait face using landmark matching while preserving the original portrait’s artistic style and geometric proportions. 
-  </p>
-  <p>
-    For instance, if a user inputs their face and Van Gogh’s Starry Night, the expected output image would have the user’s face ingrained in the overall painting’s background, as there are no faces in Starry Night. However, if a user inputs Da Vinci’s Mona Lisa instead of Starry Night, Lisa’s face would be replaced with an altered version of the user’s face that matches the artist’s style and facial dimensions.
+    The goal of our project is to create an artistically styled interpretation of a portrait that maps important features of an input face onto an input painting without sacrificing the geometric proportions and color palate of the painting. For this update, we decided to split our project into pieces that would then be combined into a pipeline for our final update. We implemented the Viola-Jones algorithm, facial landmark detection, image quilting for texture transfer, and mixed cloning using poisson blending this stage independently. We found that each individual portion of our greater project performed the required function that it needed to perform, and our qualitative results show the test cases that we fed into the algorithms. 
   </p>
 </p>
 <br><br>
 <!-- figure -->
 <h3>Teaser figure</h3>
 <p>
-A figure that conveys the main idea behind the project or the main application being addressed.
+  <div style="text-align: center;">
+    <img style="height: 200px;" alt="" src="zvi.jpg">
+    <img style="height: 200px;" alt="" src="mixedSeamClone.PNG">
+    <img style="height: 200px;" alt="" src="wheatzvi.jpg">
+  </div>
 </p>
 <br><br>
 <!-- Main Illustrative Figure -->
