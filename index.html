@@ -57,6 +57,7 @@ color: #FF9900;
     <img style="height: 200px;" alt="" src="mixedSeamClone.PNG">
     <img style="height: 200px;" alt="" src="wheatzvi.jpg">
     <img style="height: 200px;" alt="" src="lisa.png">
+    <img style="height: 200px;" alt="" src="superman_features.png">
   </div>
 </p>
 <br><br>
@@ -71,7 +72,7 @@ color: #FF9900;
 </p>
 <h4>Facial Landmark Detection</h4>
 <p>
-  The feature detection used for our face tracking is a shape detector based on dlib. This approach employs ensemble regression trees (ERTs) to determine shapes based on the detected features. The accuracy of the detection is able to be improved by the regressors as well and it does so extremely quickly allowing it to run in real-time. The regression tree works by taking an input of all the expected locations of features corresponding with a given feature. These locations are then passed through cascading regressions and each time it becomes more certain that the feature seen corresponds to a certain trained feature. They are able to determine which features they think line up in each stage by finding the mean location of the features and then warping the detected shape onto the expected frame in order to line up the features. For each regression step, these divisions are made based on a system like a piecewise function based on pixel value difference [4]. For our case, we will be running it on static images to detect 81 facial landmarks allowing us to map the face from an image onto a piece of artwork. We need to use this 81 landmark version instead of the default dlib version because we need to detect the forehead which dlib’s existing facial landmark detector does not do.
+  The feature detection used for our face tracking is a shape detector based on dlib. This approach employs ensemble regression trees (ERTs) to determine shapes based on the detected features. The accuracy of the detection is able to be improved by the regressors as well and it does so extremely quickly allowing it to run in real-time. The regression tree works by taking an input of all the expected locations of features corresponding with a given feature. These locations are then passed through cascading regressions and each time it becomes more certain that the feature seen corresponds to a certain trained feature. They are able to determine which features they think line up in each stage by finding the mean location of the features and then warping the detected shape onto the expected frame in order to line up the features. For each regression step, these divisions are made based on a system like a piecewise function based on pixel value difference [14]. For our case, we will be running it on static images to detect 81 facial landmarks allowing us to map the face from an image onto a piece of artwork. We need to use this 81 landmark version instead of the default dlib version because we need to detect the forehead which dlib’s existing facial landmark detector does not do.
 </p>
 <h4>Seamless Cloning Using Poisson Blending</h4>
 <p>
@@ -83,6 +84,7 @@ color: #FF9900;
 <h3>Experiments and Results</h3>
 <h4>Viola-Jones Face Recognition</h4>
 <p>Viola</p>
+<br/>
 <h4>Image Quilting for Texture Transfer</h4>
 <p>
   Our experimental set up for the texture transfer was simple. We used a variety of portraits that did not contain faces as our base and an image of Zvi as our person’s headshot photo. We evaluated this portion of the project qualitatively as the objective of texture transfer using image quilting is to transfer textures as smoothly to the human eye as possible. Because there is no learning involved, qualitative analysis would be the most appropriate way of examination. 
@@ -105,8 +107,18 @@ color: #FF9900;
 <p>
   A trend that we saw was that, when it comes to portraits, because they do not have a relatively uniform texture, the texture that is used to recreate the person’s face is often the same. This result was expected because the variation among a person’s face is often minute, meaning that similar corresponding textures from the portrait would be chosen as the transfer texture for each “block” of the face. This is a benefit, as the person’s face can be more easily ingrained into the background of the photo, because the face is less varied.
 </p>
+<br/>
 <h4>Facial Landmark Detection</h4>
-<p>Facial</p>
+<p>
+    For detecting facial landmarks we used a pre trained shape detector that found 81 facial landmarks. We tested the model in both human faces and artworks. We determined the quality of the features qualitatively because the model was pretrained. The detector worked well on human faces but failed on most artworks. It worked better on more realistic pieces and was especially poor on abstract images, by artists like Picasso. This makes a lot of sense because the shape detector is trained on human faces so when abstract paintings break those norms, with eyes too low, or shifter perspectives, the shape is too far off to be correctly fit to. There are options we intend to explore that use CNNs to tackle this problem for artworks, but we have not had a chance to do so yet. The results of the shape detector run on Zvi Galil and The Superman Comic can be seen below.
+    <div style="text-align: center;">
+        <img style="height: 200px;" alt="" src="zvi.jpg">
+        <img style="height: 200px;" alt="" src="zvi_features.png">
+        <img style="height: 200px;" alt="" src="superman.png">
+        <img style="height: 200px;" alt="" src="superman_features.png">
+    </div>
+</p>
+<br/>
 <h4>Seamless Cloning Using Poisson Blending</h4>
 <p>
   The experimental setup for testing seamless cloning required three parts: the source image (human face), the target image (portrait), and a mask that encapsulates the desired part of the source image to blend with the target image. As a continuation from before, we used an image of Zvi Galil’s head as the source image. The target image was Vincent van Gogh’s Self Portrait (1887).
@@ -143,7 +155,12 @@ color: #FF9900;
   </div>
 </p>
 <h4>Facial Landmark Detection</h4>
-<p>Facial</p>
+<div style="text-align: center;">
+    <img style="height: 200px;" alt="" src="zvi.jpg">
+    <img style="height: 200px;" alt="" src="zvi_features.png">
+    <img style="height: 200px;" alt="" src="superman.png">
+    <img style="height: 200px;" alt="" src="superman_features.png">
+</div>
 <h4>Seamless Cloning Using Poisson Blending</h4>
 <p>
   <div style="text-align: center;">
@@ -173,6 +190,7 @@ color: #FF9900;
 <p>[11] https://github.com/alyssaq/face_morpher/blob/dlib/facemorpher/warper.py</p>
 <p>[12] https://github.com/Jarvis73/Moving-Least-Squares</p>
 <p>[13] https://github.com/willemmanuel/poisson-image-editing/blob/master/poisson.py</p>
+<p>[14] http://www.csc.kth.se/~vahidk/papers/KazemiCVPR14.pdf</p>
 <br><br>
 
 
