@@ -48,6 +48,7 @@ color: #FF9900;
   </p>
 </p>
 <br><br>
+
 <!-- figure -->
 <h3>Teaser figure</h3>
 <p>
@@ -59,20 +60,21 @@ color: #FF9900;
   </div>
 </p>
 <br><br>
+
 <!-- Approach -->
 <h3>Approach</h3>
+<h4>Viola-Jones Face Recognition</h4>
+<p>Viola</p>
+<h4>Image Quilting for Texture Transfer</h4>
 <p>
-  In order to achieve our goal of artistically mapping a painter’s style onto an input human face, we must utilize various techniques. First, to determine if a painting contains a face, we will use the Viola-Jones algorithm [1]. If a face does not exist, we will simply use a texture generation algorithm [2] to map the landscape painting’s style onto the input face. If a face does exist (and we will have to take into account the possibility of multiple faces), we will have to detect facial landmarks. There exists a previous implementation [3] of this in Python using dlib and OpenCV that we will be able to exploit. Our ultimate goal is to produce results that appear similar to those seen in The Face of Art project [4]. To achieve this, we want to preserve the geometric style of the painting by warping the human source image to match the geometric characteristics of the portrait painting in relation to the face landmark points. We have two ideas for our warping algorithm:
+  For the case that no face was detected, we opted to use a texture transfer algorithm to give the input face the texture of the portrait. What came to mind was the texture transfer algorithm created by Efros and Freeman in their 2001 paper, Image quilting for texture synthesis and transfer [1]. In this paper, textures were transferred from object to object by comparing which texture from the source closest resembled the texture from the destination, and once the best match was found, the textures were stitched together by finding the seam of least error between the overlaps of the two regions and combining the two textures based on that seam. Because there was no code associated with the paper, we implemented it ourselves. In terms of obstacles, there were not that many. There were not that many obstacles that we faced for this portion. A key obstacle that may be faced down the road is how the algorithm can be tweaked to improve time-complexity, and this is because the algorithm takes upwards of an hour for mid sized portrait (~500x500 pixels).
 </p>
-  <ol>
-    <li> Non-parametric warping using triangular affine matrices [5] </li>
-    <li> Moving Least Squares algorithm [6] to average the image </li>
-  </ol>
-<p>
-  To map the artistic styles from image to image, we can go two ways: map the human face onto the painting, or vice versa. Either way, we can implement one of two approaches: Poisson blending [7] or weight masks based on facial feature segmentation. For weight masks, we can simply create a polygon based on the landmark features found previously (the points have ranges assigned to each region) and map those regions over using different weights for different features. The output will then result in an artistically styled face that preserves the original geometry of the painting. 
-</p>
-
+<h4>Facial Landmark Detection</h4>
+<p>Facial</p>
+<h4>Seamless Cloning Using Poisson Blending</h4>
+<p>Poisson</p>
 <br><br>
+
 <!-- Results -->
 <h3>Experiments and Results</h3>
 <h4>Viola-Jones Face Recognition</h4>
