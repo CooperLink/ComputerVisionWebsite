@@ -36,7 +36,7 @@ color: #FF9900;
 <!-- Title and Name -->
 <h1>Artistic Stylization of Faces</h1>
 <span style="font-size: 20px; line-height: 1.5em;"><strong>Cooper Link, Devarsi Rawal, Kevin Li, Matt Carroll, Saloni Shah</strong></span><br>
-<span style="font-size: 18px; line-height: 1.5em;">Fall 2020 CS 4476 Computer Vision: Class Project</span><br>
+<span style="font-size: 18px; line-height: 1.5em;">Fall 2020 CS 4476 Computer Vision: Class Project Progress Report</span><br>
 <span style="font-size: 18px; line-height: 1.5em;">Georgia Tech</span>
 <hr>
 
@@ -62,23 +62,32 @@ color: #FF9900;
 </p>
 <br><br>
 
+<!-- Introduction -->
+<h3>Introduction</h3>
+
+  <p>
+    The inspiration behind this project comes from a paper accepted into the ACM Transactions on Graphics called “The Face of Art: Landmark Detection and Geometric Style in Portraits” [1]. In this paper, the researchers attempt to apply style transfer from an artistic portrait onto a natural face while preserving the geometry and style of the original painting. This implementation is heavily reliant upon training deep neural networks in order to find facial landmarks and apply the style transfer. In this project, we hope to simplify this implementation with minimal reliance on neural networks such that we can achieve maximum speeds.
+  </p>
+</p>
+<br><br>
+
 <!-- Approach -->
 <h3>Approach</h3>
 <h4>Viola-Jones Face Recognition</h4>
-<p>A critical component in pre-processing our input images is to determine what type of warping should take place.  To do this, our project uses the OpenCV implementation of Cascade Classifiers [1] to quickly identify regions with front facing human faces in them.  If a face is identified in both the input painting and the input user portrait, our algorithm will warp the user portrait to support the styling of the painting.  Otherwise, texture mapping  will be applied.  </p>
+<p>A critical component in pre-processing our input images is to determine what type of warping should take place.  To do this, our project uses the OpenCV implementation of Cascade Classifiers [2] to quickly identify regions with front facing human faces in them.  If a face is identified in both the input painting and the input user portrait, our algorithm will warp the user portrait to support the styling of the painting.  Otherwise, texture mapping  will be applied.  </p>
 	<p>The Viola-Jones approach to quick object detection was an extremely innovative approach when it was defined in 2001.  The authors used a learning algorithm called Adaboost to determine sets of simple features that can be applied to an image to determine if it contains a face.  Incoming images are split into sub-windows and passed through a trained classification pipeline called a simple feature cascade. At each stage in the pipeline a simple feature is applied to the sub-window.  If the window passes a certain threshold, the region is classified as possibly containing a face and it proceeds.  If it does not pass a certain stage in the pipeline, it is discarded.   This approach makes the algorithm very computationally cheap to apply because most windows are discarded very early. 
 </p>
 <h4>Image Quilting for Texture Transfer</h4>
 <p>
-  For the case that no face was detected, we opted to use a texture transfer algorithm to give the input face the texture of the portrait. What came to mind was the texture transfer algorithm created by Efros and Freeman in their 2001 paper, Image quilting for texture synthesis and transfer [1]. In this paper, textures were transferred from object to object by comparing which texture from the source closest resembled the texture from the destination, and once the best match was found, the textures were stitched together by finding the seam of least error between the overlaps of the two regions and combining the two textures based on that seam. Because there was no code associated with the paper, we implemented it ourselves. In terms of obstacles, there were not that many. There were not that many obstacles that we faced for this portion. A key obstacle that may be faced down the road is how the algorithm can be tweaked to improve time-complexity, and this is because the algorithm takes upwards of an hour for mid sized portrait (~500x500 pixels).
+  For the case that no face was detected, we opted to use a texture transfer algorithm to give the input face the texture of the portrait. What came to mind was the texture transfer algorithm created by Efros and Freeman in their 2001 paper, Image quilting for texture synthesis and transfer [3]. In this paper, textures were transferred from object to object by comparing which texture from the source closest resembled the texture from the destination, and once the best match was found, the textures were stitched together by finding the seam of least error between the overlaps of the two regions and combining the two textures based on that seam. Because there was no code associated with the paper, we implemented it ourselves. In terms of obstacles, there were not that many. There were not that many obstacles that we faced for this portion. A key obstacle that may be faced down the road is how the algorithm can be tweaked to improve time-complexity, and this is because the algorithm takes upwards of an hour for mid sized portrait (~500x500 pixels).
 </p>
 <h4>Facial Landmark Detection</h4>
 <p>
-  The feature detection used for our face tracking is a shape detector based on dlib. This approach employs ensemble regression trees (ERTs) to determine shapes based on the detected features. The accuracy of the detection is able to be improved by the regressors as well and it does so extremely quickly allowing it to run in real-time. The regression tree works by taking an input of all the expected locations of features corresponding with a given feature. These locations are then passed through cascading regressions and each time it becomes more certain that the feature seen corresponds to a certain trained feature. They are able to determine which features they think line up in each stage by finding the mean location of the features and then warping the detected shape onto the expected frame in order to line up the features. For each regression step, these divisions are made based on a system like a piecewise function based on pixel value difference [14]. For our case, we will be running it on static images to detect 81 facial landmarks allowing us to map the face from an image onto a piece of artwork. We need to use this 81 landmark version instead of the default dlib version because we need to detect the forehead which dlib’s existing facial landmark detector does not do.
+  The feature detection used for our face tracking is a shape detector based on dlib. This approach employs ensemble regression trees (ERTs) to determine shapes based on the detected features. The accuracy of the detection is able to be improved by the regressors as well and it does so extremely quickly allowing it to run in real-time. The regression tree works by taking an input of all the expected locations of features corresponding with a given feature. These locations are then passed through cascading regressions and each time it becomes more certain that the feature seen corresponds to a certain trained feature. They are able to determine which features they think line up in each stage by finding the mean location of the features and then warping the detected shape onto the expected frame in order to line up the features. For each regression step, these divisions are made based on a system like a piecewise function based on pixel value difference [4]. For our case, we will be running it on static images to detect 81 facial landmarks allowing us to map the face from an image onto a piece of artwork. We need to use this 81 landmark version instead of the default dlib version because we need to detect the forehead which dlib’s existing facial landmark detector does not do.
 </p>
 <h4>Seamless Cloning Using Poisson Blending</h4>
 <p>
-  To artistically stylize the source face, we decided to use a blending algorithm to merge the face with the portrait. The algorithm used in this implementation is seamless cloning through Poisson blending. As described by Perez et al. in their paper Poisson Image Editing, Poisson blending is an image editing technique in which one image may be inserted into another image without introducing any visually unappealing seams [2]. The authors present different use cases of Poisson blending in their paper; however, we are solely focused on normal and mixed seamless cloning. In normal seamless cloning, the gradient field used for the guidance field is taken entirely from the source image. Mixed seamless cloning, on the other hand, takes the gradient field with the stronger variation from either the source or target image to use in the guidance field. We will experiment with both techniques to create a stylized face.
+  To artistically stylize the source face, we decided to use a blending algorithm to merge the face with the portrait. The algorithm used in this implementation is seamless cloning through Poisson blending. As described by Perez et al. in their paper Poisson Image Editing, Poisson blending is an image editing technique in which one image may be inserted into another image without introducing any visually unappealing seams [5]. The authors present different use cases of Poisson blending in their paper; however, we are solely focused on normal and mixed seamless cloning. In normal seamless cloning, the gradient field used for the guidance field is taken entirely from the source image. Mixed seamless cloning, on the other hand, takes the gradient field with the stronger variation from either the source or target image to use in the guidance field. We will experiment with both techniques to create a stylized face.
 </p>
 <br><br>
 
@@ -134,18 +143,25 @@ color: #FF9900;
   </div>
 </p>
 <p>
-  To blend the images, we attempted two techniques in seamless cloning using Poisson blending: normal and mixed.
+  To blend the images, we attempted two techniques in seamless cloning using Poisson blending: normal (left) and mixed (right).
   <div style="text-align: center;">
     <img style="height: 200px;" alt="" src="zvigogh.png">
     <img style="height: 200px;" alt="" src="mixedSeamClone.PNG">
   </div>
+</p>
+<p>
+    The normal variant retained most of the source image’s facial features without much of the artistic style of the painting. The mixed variant retained more of the artistic style, but it is hard to notice the blending. The most visible areas are the right side of the nose and the mouth. A different source image may need to be used in the future to create a more noticeable blend.
 </p>
 <br><br>
 
 <!-- Qualitative Results-->
 <h3>Qualitative Results</h3>
 <h4>Viola-Jones Face Recognition</h4>
-<p>Viola</p>
+<p>
+    <div style="text-align: center;">
+        <img style="height: 200px;" alt="" src="ViolaJones.JPG">
+      </div>
+</p>
 <h4>Image Quilting for Texture Transfer</h4>
 <p>
   <div style="text-align: center;">
@@ -177,25 +193,29 @@ color: #FF9900;
 <!-- Conclusion -->
 <h3>Conclusion and Future Work</h3>
 <p>
-  A future goal would be to increase the speed at which the texture transfer takes. The time it took for the entire algorithm to run to completion was around an hour with both images being under 500x500 pixels. The amount of time it takes for it to run might turn off users, so we will need to look into ways to speed up our algorithm or pivot to neural networks that can run at much faster speeds [2].
+  A future goal would be to increase the speed at which the texture transfer takes. The time it took for the entire algorithm to run to completion was around an hour with both images being under 500x500 pixels. The amount of time it takes for it to run might turn off users, so we will need to look into ways to speed up our algorithm or pivot to neural networks that can run at much faster speeds [6].
 </p>
 
 <!-- References -->
 <h3>References</h3>
-<p>[1] https://en.wikipedia.org/wiki/Viola%E2%80%93Jones_object_detection_framework</p>
-<p>[2] http://www.cs.harvard.edu/~sjg/apr/</p>
-<p>[3] https://github.com/codeniko/shape_predictor_81_face_landmarks</p>
-<p>[4] https://github.com/papulke/face-of-art</p>
-<p>[5] https://www.csie.ntu.edu.tw/~cyy/courses/vfx/18spring/lectures/handouts/lec05_morphing.pdf</p>
-<p>[6] https://people.engr.tamu.edu/schaefer/research/mls.pdf</p>
-<p>[7] http://cs.brown.edu/courses/cs195-g/asgn/proj2/resources/PoissonImageEditing.pdf</p>
-<p>[8] https://faculty.idc.ac.il/arik/site/foa/artistic-faces-dataset.asp</p>
-<p>[9] https://ibug.doc.ic.ac.uk/resources/facial-point-annotations/</p>
-<p>[10] https://www.kaggle.com/ikarus777/best-artworks-of-all-time</p>
-<p>[11] https://github.com/alyssaq/face_morpher/blob/dlib/facemorpher/warper.py</p>
-<p>[12] https://github.com/Jarvis73/Moving-Least-Squares</p>
-<p>[13] https://github.com/willemmanuel/poisson-image-editing/blob/master/poisson.py</p>
-<p>[14] http://www.csc.kth.se/~vahidk/papers/KazemiCVPR14.pdf</p>
+<p>
+    [1] <a href="https://faculty.idc.ac.il/arik/site/foa/face-of-art.asp">https://faculty.idc.ac.il/arik/site/foa/face-of-art.asp</a>
+</p>
+<p>
+    [2] <a href="https://ieeexplore.ieee.org/document/990517">https://ieeexplore.ieee.org/document/990517</a>
+</p>
+<p>
+    [3] <a href="https://dl.acm.org/doi/abs/10.1145/383259.383296">https://dl.acm.org/doi/abs/10.1145/383259.383296</a>
+</p>
+<p>
+    [4] <a href="http://www.csc.kth.se/~vahidk/papers/KazemiCVPR14.pdf">http://www.csc.kth.se/~vahidk/papers/KazemiCVPR14.pdf</a>
+</p>
+<p>
+    [5] <a href="http://www.irisa.fr/vista/Papers/2003_siggraph_perez.pdf">http://www.irisa.fr/vista/Papers/2003_siggraph_perez.pdf</a>
+</p>
+<p>
+    [6] <a href="https://www.tensorflow.org/tutorials/generative/style_transfer">https://www.tensorflow.org/tutorials/generative/style_transfer</a>
+</p>
 <br><br>
 
 
