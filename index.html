@@ -65,7 +65,9 @@ color: #FF9900;
 <!-- Approach -->
 <h3>Approach</h3>
 <h4>Viola-Jones Face Recognition</h4>
-<p>Viola</p>
+<p>A critical component in pre-processing our input images is to determine what type of warping should take place.  To do this, our project uses the OpenCV implementation of Cascade Classifiers [1] to quickly identify regions with front facing human faces in them.  If a face is identified in both the input painting and the input user portrait, our algorithm will warp the user portrait to support the styling of the painting.  Otherwise, texture mapping  will be applied.  </p>
+	<p>The Viola-Jones approach to quick object detection was an extremely innovative approach when it was defined in 2001.  The authors used a learning algorithm called Adaboost to determine sets of simple features that can be applied to an image to determine if it contains a face.  Incoming images are split into sub-windows and passed through a trained classification pipeline called a simple feature cascade. At each stage in the pipeline a simple feature is applied to the sub-window.  If the window passes a certain threshold, the region is classified as possibly containing a face and it proceeds.  If it does not pass a certain stage in the pipeline, it is discarded.   This approach makes the algorithm very computationally cheap to apply because most windows are discarded very early. 
+</p>
 <h4>Image Quilting for Texture Transfer</h4>
 <p>
   For the case that no face was detected, we opted to use a texture transfer algorithm to give the input face the texture of the portrait. What came to mind was the texture transfer algorithm created by Efros and Freeman in their 2001 paper, Image quilting for texture synthesis and transfer [1]. In this paper, textures were transferred from object to object by comparing which texture from the source closest resembled the texture from the destination, and once the best match was found, the textures were stitched together by finding the seam of least error between the overlaps of the two regions and combining the two textures based on that seam. Because there was no code associated with the paper, we implemented it ourselves. In terms of obstacles, there were not that many. There were not that many obstacles that we faced for this portion. A key obstacle that may be faced down the road is how the algorithm can be tweaked to improve time-complexity, and this is because the algorithm takes upwards of an hour for mid sized portrait (~500x500 pixels).
@@ -83,7 +85,10 @@ color: #FF9900;
 <!-- Results -->
 <h3>Experiments and Results</h3>
 <h4>Viola-Jones Face Recognition</h4>
-<p>Viola</p>
+<p>In order to use the Viola-Jones algorithm in our project, our group opted to use the cascade classifier implemented in OpenCV.  This allows our team to use pre-trained cascade pipelines for face detection and avoid the need for large training and testing data sets.  One concern that our group had with using the pre-trained cascade networks was that networks trained to capture pictures of real people would not be generalizable to paintings of people. Initial testing has shown that existing cascade networks can be used to reliably find human faces in paintings as well as photos. </p>
+<div style="text-align: center;">
+  <img style="height: 200px;" alt="" src="ViolaJones.JPG">
+</div>
 <br/>
 <h4>Image Quilting for Texture Transfer</h4>
 <p>
