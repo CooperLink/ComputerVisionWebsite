@@ -88,14 +88,16 @@ def warp_image(input_image, ref_image, H, top=True):
             warped[int(pair[1]), int(pair[0])] = input_image[int(scaled[1]), int(scaled[0])]
             merged[int(pair[1] + r_pos_off), int(pair[0] + c_pos_off)] = input_image[int(scaled[1]), int(scaled[0])]
     # warp_image = warped.astype(np.uint8)
+    warp_image = merged.astype(np.uint8)
+    return warp_image
     
-    merge_image = merged.astype(np.uint8)
-    if not top:
-        merge_image[r_off:(r_off + ref_image.shape[0]), c_off:(c_off + ref_image.shape[1]), :] = ref_image
-    else:
-        temp = np.copy(ref_image)
-        layer = merged[:,:, 0]
-        filled = np.where(layer >= 0)
-        temp[filled[0], filled[1], :] = merged[filled[0], filled[1], :]
-        merge_image = temp
-    return merge_image
+    # merge_image = merged.astype(np.uint8)
+    # if not top:
+    #     merge_image[r_off:(r_off + ref_image.shape[0]), c_off:(c_off + ref_image.shape[1]), :] = ref_image
+    # else:
+    #     temp = np.copy(ref_image)
+    #     layer = merged[:,:, 0]
+    #     filled = np.where(layer >= 0)
+    #     temp[filled[0], filled[1], :] = merged[filled[0], filled[1], :]
+    #     merge_image = temp
+    # return merge_image

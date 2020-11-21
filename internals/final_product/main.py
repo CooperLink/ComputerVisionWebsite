@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import sys
 from face_detection import check_face
 from face_features import find_features, compute_homography, warp_image
+from blending import blend
 import texture_transfer
 
 if len(sys.argv) != 3:
@@ -30,8 +31,10 @@ if has_face:
     img2 = np.asarray(imageio.imread(art_path))
     H = compute_homography(photo_features, art_features)
 
-    merged = warp_image(img1, img2, H)
-    plt.imshow(merged)
+    warped = warp_image(img1, img2, H)
+
+    blended = blend(warped, img2, art_features)
+    plt.imshow(blended)
     plt.show()
     
 
