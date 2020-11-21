@@ -8,9 +8,10 @@ predictor_path = 'shape_predictor_81_face_landmarks.dat'
 detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor(predictor_path)
 
-frame = imageio.imread("./zvi.jpg")
+frame = imageio.imread("./monaLisa.jpg")
 dets = detector(frame, 1)
 faces = []
+print(faces)
 for d in dets:
     shape = predictor(frame, d)
     landmarks = np.array([[p.x, p.y] for p in shape.parts()])
