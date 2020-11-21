@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 from skimage.color import rgb2gray
 from skimage.filters import gaussian
 from skimage import io, util
-import heapq
 import math
+import cv2 
 
 def L2OverlapDiff(patch, patchLength, overlap, res, y, x):
     error = 0
@@ -114,8 +114,6 @@ def bestCorrOverlapPatch(texture, corrTexture, patchLength, overlap,
     i, j = np.unravel_index(np.argmin(errors), errors.shape)
     return texture[i:i+di, j:j+dj]
 
-
-
 def transfer(texture, target, patchLength, mode="cut", 
              alpha=0.1, level=0, prior=None, blur=False):
     corrTexture = rgb2gray(texture)
@@ -124,11 +122,6 @@ def transfer(texture, target, patchLength, mode="cut",
     if blur:
         corrTexture = gaussian(corrTexture, sigma=3)
         corrTarget  = gaussian(corrTarget,  sigma=3)
-
-    io.imshow(corrTexture)
-    io.show()
-    io.imshow(corrTarget)
-    io.show()
 
     # remove alpha channel
     texture = util.img_as_float(texture)[:,:,:3]
@@ -177,10 +170,38 @@ def transferIter(texture, target, patchLength, n):
     
     return res
 
+def implantImage(input, background):
+    inputH, inputW, _ = input.shape
+    totalH, totalW, _ = background.shape
+    inputShape = np.array([inputH, inputW])
+    backgroundShape = np.array([totalH, totalW])
+    scale = max(1/4 * backgroundShape / inputShape)
 
-zvi = imageio.imread('zvi.jpg')
-# night = imageio.imread('night.jpg')
-wheat = imageio.imread('wheatfield.jpeg')
-final = transferIter(wheat, zvi, 20, 2)
-imgplot = plt.imshow(final)
-plt.show()
+    rescaled = cv2.resize(input.astype('uint8'), dsize=(int(scale * inputW), int(scale * inputH)), interpolation=cv2.INTER_CUBIC)
+    rescaledH, rescaledW, _ = rescaled.shape
+
+    newBackground = background.copy().astype(int)
+
+    shiftH = 0
+    shiftW = 0
+    differences = np.Inf
+    for sH in range(totalH - rescaledH):
+        for sW in range(totalW - rescaledW):
+            # dif = np.square(background[sH:sH + rescaledH, sW:sW + rescaledW] - rescaled[:,:])
+            dif = (np.absolute(background[sH:sH + rescaledH, sW:sW + rescaledW] - rescaled[:,:]))
+            if (np.sum(dif) < differences):
+                shiftH = sH
+                shiftW = sW
+                differences = np.sum(dif)
+    print("sH: ", shiftH)
+    print("sW: ", shiftW)
+    print(differences)
+    newBackground[shiftH:shiftH + rescaledH, shiftW: shiftW + rescaledW] = (
+        (1/2 * newBackground[shiftH:shiftH + rescaledH, shiftW: shiftW + rescaledW] + 1/2 * rescaled[:,:]))
+
+    return newBackground.astype('uint8')
+
+def textureTransfer(face, portrait):
+    transferedInput = transferIter(portrait, face, 20, 2)
+    implantedInput = implantImage(transferedInput, portrait)
+    return implantedInput
