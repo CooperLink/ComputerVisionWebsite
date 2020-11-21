@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import sys
 from face_detection import check_face
 from face_features import find_features, compute_homography, warp_image
+import texture_transfer
 
 if len(sys.argv) != 3:
     print("You need to include the path to the image then the artwork.")
@@ -36,4 +37,8 @@ if has_face:
 
 #if not then do texture mapping
 else:
-    print("RIP")
+    face = np.asarray(imageio.imread(photo_path))
+    portrait = np.asarray(imageio.imread(art_path))
+    final = texture_transfer.textureTransfer(face, portrait)
+    plt.imshow(final)
+    plt.show()
