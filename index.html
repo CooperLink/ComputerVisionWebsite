@@ -58,7 +58,7 @@ color: #FF9900;
     <img style="height: 200px;" alt="" src="wheatfieldzvi.png">
     <img style="height: 200px;" alt="" src="finalWheat3.png">
     <img style="height: 200px;" alt="" src="lisa.png">
-    <img style="height: 200px;" alt="" src="superman_features.png">
+    <img style="height: 200px;" alt="" src="monaLisa_features.png">
   </div>
 </p>
 <br><br>
@@ -85,6 +85,7 @@ color: #FF9900;
 <h4>Facial Landmark Detection</h4>
 <p>
   The feature detection used for our face tracking is a shape detector based on dlib. This approach employs ensemble regression trees (ERTs) to determine shapes based on the detected features. The accuracy of the detection is able to be improved by the regressors as well and it does so extremely quickly allowing it to run in real-time. The regression tree works by taking an input of all the expected locations of features corresponding with a given feature. These locations are then passed through cascading regressions and each time it becomes more certain that the feature seen corresponds to a certain trained feature. They are able to determine which features they think line up in each stage by finding the mean location of the features and then warping the detected shape onto the expected frame in order to line up the features. For each regression step, these divisions are made based on a system like a piecewise function based on pixel value difference [4]. For our case, we will be running it on static images to detect 81 facial landmarks allowing us to map the face from an image onto a piece of artwork. We need to use this 81 landmark version instead of the default dlib version because we need to detect the forehead which dlib’s existing facial landmark detector does not do.
+  Once we have the features in both the artwork and the user photo then we calculate the homography matrix to transform the user photo onto the artwork, then transform the face to the artwork.
 </p>
 <h4>Face Merging via Alpha Blending </h4>
 <p>
@@ -131,12 +132,19 @@ color: #FF9900;
 <br/>
 <h4>Facial Landmark Detection</h4>
 <p>
-    For detecting facial landmarks we used a pre trained shape detector that found 81 facial landmarks. We tested the model in both human faces and artworks. We determined the quality of the features qualitatively because the model was pretrained. The detector worked well on human faces but failed on most artworks. It worked better on more realistic pieces and was especially poor on abstract images, by artists like Picasso. This makes a lot of sense because the shape detector is trained on human faces so when abstract paintings break those norms, with eyes too low, or shifter perspectives, the shape is too far off to be correctly fit to. There are options we intend to explore that use CNNs to tackle this problem for artworks, but we have not had a chance to do so yet. The results of the shape detector run on Zvi Galil and The Superman Comic can be seen below.
+    For detecting facial landmarks we used a pre trained shape detector that found 81 facial landmarks. We tested the model in both human faces and artworks. We determined the quality of the features qualitatively because the model was pretrained. The detector worked well on human faces but failed on most artworks. It worked better on more realistic pieces and was especially poor on abstract images, by artists like Picasso. This makes a lot of sense because the shape detector is trained on human faces so when abstract paintings break those norms, with eyes too low, or shifter perspectives, the shape is too far off to be correctly fit to. There are Neural Networks that have been used to address this but it was beyond out abilities for this project. The results of the shape detector run on Zvi Galil and The Mona Lisa can be seen below.
     <div style="text-align: center;">
         <img style="height: 200px;" alt="" src="zvi.jpg">
         <img style="height: 200px;" alt="" src="zvi_features.png">
-        <img style="height: 200px;" alt="" src="superman.png">
-        <img style="height: 200px;" alt="" src="superman_features.png">
+        <img style="height: 200px;" alt="" src="monaLisa.jpg">
+        <img style="height: 200px;" alt="" src="monaLisa_features.png">
+    </div>
+</p>
+<p>
+    Here is the result of mapping the zvi's face onto the Mona Lisa using the homography matrix (without blending).
+
+    <div style="text-align: center;">
+        <img style="height: 200px;" alt="" src="monaLisa_zvi.png">
     </div>
 </p>
 <br/>
@@ -180,12 +188,16 @@ color: #FF9900;
   </div>
 </p>
 <h4>Facial Landmark Detection</h4>
-<div style="text-align: center;">
-    <img style="height: 200px;" alt="" src="zvi.jpg">
-    <img style="height: 200px;" alt="" src="zvi_features.png">
-    <img style="height: 200px;" alt="" src="superman.png">
-    <img style="height: 200px;" alt="" src="superman_features.png">
-</div>
+<p>
+    <div style="text-align: center;">
+        <img style="height: 200px;" alt="" src="zvi.jpg">
+        <img style="height: 200px;" alt="" src="zvi_features.png">
+        <img style="height: 200px;" alt="" src="monaLisa.jpg">
+        <img style="height: 200px;" alt="" src="monaLisa_features.png">
+        <img style="height: 200px;" alt="" src="monaLisa_zvi.png">
+    </div>
+</p>
+
 <h4>Face Merging via Alpha Blending</h4>
 <p>
   <div style="text-align: center;">
