@@ -177,7 +177,7 @@ def implantImage(input, background):
     backgroundShape = np.array([totalH, totalW])
     scale = max(1/4 * backgroundShape / inputShape)
 
-    rescaled = cv2.resize(input.astype('uint8'), dsize=(int(scale * inputW), int(scale * inputH)), interpolation=cv2.INTER_CUBIC)
+    rescaled = cv2.resize(input, dsize=(int(scale * inputW), int(scale * inputH)), interpolation=cv2.INTER_CUBIC)
     rescaledH, rescaledW, _ = rescaled.shape
 
     newBackground = background.copy().astype(int)
