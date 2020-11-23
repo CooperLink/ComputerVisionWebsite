@@ -54,11 +54,11 @@ color: #FF9900;
 <p>
   <div style="text-align: center;">
     <img style="height: 200px;" alt="" src="zvi.jpg">
-    <img style="height: 200px;" alt="" src="mixedSeamClone.PNG">
-    <img style="height: 200px;" alt="" src="wheatfieldzvi.png">
-    <img style="height: 200px;" alt="" src="finalWheat3.png">
     <img style="height: 200px;" alt="" src="lisa.png">
     <img style="height: 200px;" alt="" src="internals/final_product/examples/blended_monaLisa.jpg">
+    <img style="height: 200px;" alt="" src="wheatfield.jpeg">
+    <img style="height: 200px;" alt="" src="wheatfieldzvi.png">
+    <img style="height: 200px;" alt="" src="finalWheat3.png">
   </div>
 </p>
 <br><br>
@@ -223,7 +223,7 @@ color: #FF9900;
 <!-- Conclusion -->
 <h3>Conclusion and Future Work</h3>
 <p>
-  A future goal would be to increase the speed at which the texture transfer takes. The time it took for the entire algorithm to run to completion was around an hour with both images being under 500x500 pixels. The amount of time it takes for it to run might turn off users, so we will need to look into ways to speed up our algorithm or pivot to neural networks that can run at much faster speeds [6].
+  Overall, we were able to achieve our goal of embedding a human face onto a painting while preserving its geometric and artistic styling. Our implementation works well when given a clear, high-resolution headshot of a human face and a regularly-shaped, full-frontal portrait; however, it falls short if the input portrait is angled or is too abstract (meaning the facial features do not follow the structure of a typical human). This has been done before [1] but relies heavily upon neural networks to extract facial landmarks. One improvement upon this project would be to use a blending technique that incorporates more of the painter's artistic style in the final product. Another future goal would be to increase the speed at which the texture transfer takes. The time it took for the entire algorithm to run to completion was around an hour with both images being under 500x500 pixels. The amount of time it takes for it to run might turn off users, so we will need to look into ways to speed up our algorithm or pivot to neural networks that can run at much faster speeds [6].
 </p>
 
 <!-- References -->
